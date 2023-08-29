@@ -1,0 +1,4 @@
+
+> /usr/local/bin/archivebox server --quick-init 0.0.0.0:8000; ts=2023-08-23__21:54:16 version=0.6.3 docker=True is_tty=False
+
+> /usr/local/bin/archivebox server --quick-init 0.0.0.0:8000; ts=2023-08-23__21:54:16 version=0.6.3 docker=True is_tty=False
