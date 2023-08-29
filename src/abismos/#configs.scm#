@@ -425,7 +425,7 @@
     ;; it's not recommended to use it.
     #:emacs-advanced-user? #t)
     (feature-gnupg
-     #:gpg-primary-key "FBB1DA5503E99B63"
+     #:gpg-primary-key "FBB1DA5503E99B63" ;;from my subkey dedicated to authentication only
      #:ssh-keys '(("3211C53919F2A6531BAB58F37AC33F6A61B7D25E"))  ;;gpg -K --with-keygrip
     ;; see https://daltonmatos.com/2018/08a/usando-seu-keyring-gpg-para-guardar-sua-chave-ssh/
 

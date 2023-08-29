@@ -495,12 +495,10 @@
                                      '("doc" "docx" "rtf" "xls" "odt"))
                                     "libreoffice"
                                     '(file))
-                              ;; (list (openwith-make-extension-regexp
-                              ;;        '("mp4"))
-                              ;;       "mpv"
-                              ;;       '(file))
-
-
+                               (list (openwith-make-extension-regexp
+                                      '("mp4"))
+                                     "mpv"
+                                     '(file))
                               (list (openwith-make-extension-regexp
                                      '("cbr" "cbz"))
                                     "YACReader"
@@ -510,7 +508,8 @@
                        (setq org-agenda-include-diary t)
                        (load "brazilian-holidays.el")
                        (require 'brazilian-holidays)
-                       (setq brazilian-sp-holidays t)))
+                       (setq brazilian-sp-holidays t)
+                       (org-add-link-type "mpv" (lambda (path) (browse-url-xdg-open path)))))
 
 
 
