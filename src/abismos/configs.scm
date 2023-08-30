@@ -154,6 +154,7 @@
      "figlet" ;; TODO: Move to emacs-artist-mode
      "pandoc"
      "calibre"
+     "mcomix"
      "sameboy"
      "picard"
      "blender"
@@ -207,6 +208,7 @@
      "btrbk"
      "vorta"
      "firefox" ;; nonguix channel
+     "icecat"
      ;;"ungoogled-chromium-wayland"
          ;; "nix"
         "gammastep"
@@ -425,16 +427,15 @@
     ;; it's not recommended to use it.
     #:emacs-advanced-user? #t)
     (feature-gnupg
-     #:gpg-primary-key "FBB1DA5503E99B63"
+     #:gpg-primary-key "FBB1DA5503E99B63" ;;from my subkey dedicated to authentication only
      #:ssh-keys '(("3211C53919F2A6531BAB58F37AC33F6A61B7D25E"))  ;;gpg -K --with-keygrip
     ;; see https://daltonmatos.com/2018/08a/usando-seu-keyring-gpg-para-guardar-sua-chave-ssh/
 
      )
    ;; (feature-security-token)
-    (feature-password-store
-
-    ;; #:remote-password-store-url "ssh://github.com/igorzolnerkevic/password-store.git"
-    ) ;;atualizar pro Gitlab!!!
+;;    (feature-password-store
+;; #:remote-password-store-url ;;"ssh://github.com/igorzolnerkevic/password-store.git"
+;;    ) ;;atualizar pro Gitlab!!!
 
     (feature-mail-settings
      #:mail-accounts (list   (mail-acc 'work     "igorz@abismos.net" 'gmail)
@@ -709,8 +710,9 @@
                           "#+title: %<%Y-%m-d>\n"))))
 
     (feature-emacs-org-agenda
-     #:org-agenda-files '("~/org/todo.org"
-                          "~/org/horizons.org"))
+     #:org-agenda-files '(
+                          ;;"~/org/notes/todo.org"
+                          "~/org/notes/"))
     (feature-emacs-elfeed
      #:elfeed-org-files '("~/org/rss.org"))
 

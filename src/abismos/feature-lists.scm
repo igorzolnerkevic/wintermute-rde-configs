@@ -501,7 +501,7 @@
                                      '(file))
                               (list (openwith-make-extension-regexp
                                      '("cbr" "cbz"))
-                                    "YACReader"
+                                    "mcomix"
                                     '(file))
 	                      ))
                        (openwith-mode t)
