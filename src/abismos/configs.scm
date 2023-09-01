@@ -375,9 +375,9 @@
        ;;     (control-path . "~/.ssh/master-%r@%h:%p")
        ;;     (compression . #t))))
         (ssh-host
-        (host "wintermute")
+        (host "neuromancer")
         (options
-         '((host-name . "192.168.15.5")
+         '((host-name . "192.168.15.20")
            (port . 22)
            (compression . #f))))
        ;; (ssh-host
@@ -598,13 +598,6 @@
 		      ("família")
 		      ("amigos")
 		      ("encontros")
-		      (:endgrouptag)
-		      (:startgrouptag)
-		      ("família")
-		      (:grouptags)
-		      ("mamãe")
-		      ("papai")
-		      ("aleksei")
 		      (:endgrouptag)
 		      (:startgrouptag)
 		      ("lazer")
