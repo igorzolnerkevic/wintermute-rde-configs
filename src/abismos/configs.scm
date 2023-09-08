@@ -78,7 +78,20 @@
    home-emacs-service-type
    (home-emacs-extension
     (init-el
-     `(
+     `((with-eval-after-load 'piem
+         (setq piem-inboxes
+               '(("guix-devel"
+                  :url "https://yhetil.org/guile-devel/"
+                  :address "guile-devel@gnu.org"
+                  :coderepo "~/public-inboxes/guile")
+                 ("guix-patches"
+                  :url "https://yhetil.org/guix-patches/"
+                  :address "guix-patches@gnu.org"
+                  :coderepo "~/public-inboxes/guix/")
+                 ("rde-devel"
+                  :url "https://lists.sr.ht/~abcdw/rde-devel"
+                  :address "~abcdw/rde-devel@lists.sr.ht"
+                  :coderepo "~/public-inboxes/rde/"))))
       (with-eval-after-load 'org
          (setq org-use-speed-commands t)
          (define-key org-mode-map (kbd "M-o")
@@ -106,7 +119,8 @@
       (list
        (@ (rde packages emacs-xyz) emacs-clojure-ts-mode)
        (@ (rde packages emacs-xyz) emacs-combobulate))
-       (strings->packages
+      (strings->packages
+       "emacs-piem"
        "emacs-writegood-mode"
        "emacs-org-super-agenda"
        "emacs-org-edna"
@@ -151,7 +165,7 @@
      (@ (gnu packages tree-sitter) tree-sitter-clojure)
      (@ (gnu packages tree-sitter) tree-sitter-html))
     (strings->packages
-     "figlet" ;; TODO: Move to emacs-artist-mode
+    "figlet" ;; TODO: Move to emacs-artist-mode
      "pandoc"
      "calibre"
      "mcomix"
@@ -374,12 +388,12 @@
        ;;     (control-master . "auto")
        ;;     (control-path . "~/.ssh/master-%r@%h:%p")
        ;;     (compression . #t))))
-        (ssh-host
-        (host "neuromancer")
-        (options
-         '((host-name . "192.168.15.20")
-           (port . 22)
-           (compression . #f))))
+        ;; (ssh-host
+        ;; (host "neuromancer")
+        ;; (options
+        ;;  '((host-name . "192.168.15.20")
+        ;;    (port . 22)
+        ;;    (compression . #f))))
        ;; (ssh-host
        ;;  (host "pinky")
        ;;  (options
@@ -432,10 +446,10 @@
     ;; see https://daltonmatos.com/2018/08a/usando-seu-keyring-gpg-para-guardar-sua-chave-ssh/
 
      )
-   ;; (feature-security-token)
-;;    (feature-password-store
+    ;; (feature-security-token)
+    (feature-password-store
 ;; #:remote-password-store-url ;;"ssh://github.com/igorzolnerkevic/password-store.git"
-;;    ) ;;atualizar pro Gitlab!!!
+   ) ;;atualizar pro Gitlab!!!
 
     (feature-mail-settings
      #:mail-accounts (list   (mail-acc 'work     "igorz@abismos.net" 'gmail)
@@ -696,8 +710,7 @@
 
     (feature-emacs-org-agenda
      #:org-agenda-files '(
-                          ;;"~/org/notes/todo.org"
-                          "~/org/notes/"))
+                          "~/org/todo.org"))
     (feature-emacs-elfeed
      #:elfeed-org-files '("~/org/rss.org"))
 
@@ -713,25 +726,48 @@
 ;;    ;; TODO: move feature to general, move extra configuration to service.
 
 
-     (feature-notmuch
+
+ ;; TODO: move feature to general, move extra configuration to service.
+    (feature-notmuch
+     #:extra-tag-updates-post
+     '("notmuch tag +guix-home +inbox -- 'thread:\"\
+{((subject:guix and subject:home) or (subject:service and subject:home) or \
+subject:/home:/) and tag:new}\"'")
+     #:notmuch-saved-searches
+     (append
+      ;; TODO: Add tag:unread to all inboxes.  Revisit archive workflow.
+      '((:name "To Process" :query "tag:todo or (tag:inbox and not tag:unread)"
+         :key "t")
+        (:name "Drafts" :query "tag:draft" :key "d")
+        (:name "Watching" :query "thread:{tag:watch} and tag:unread" :key "w")
+        (:name "Work Inbox" :query "tag:work and tag:inbox and tag:unread"
+         :key "W")
+        (:name "Personal Inbox" :query "tag:personal and tag:inbox" :key "P")
+        (:name "Guix Home Inbox" :key "H" :query "tag:guix-home and tag:unread"))
+      ;; %rde-notmuch-saved-searches
+      '()))
+
+
+
+   ;;  (feature-notmuch
      ;; TODO: Add integration with mail-lists
      ;; `notmuch-show-stash-mlarchive-link-alist'
-     #:extra-tag-updates-post
-     '("notmuch tag +guix-home -- 'thread:\"\
- {((subject:guix and subject:home) or (subject:service and subject:home) or \
- subject:/home:/) and tag:new}\"'")
-     #:notmuch-saved-searches
-     (cons*
-      ;; TODO: Add tag:unread to all inboxes.  Revisit archive workflow.
-      '(:name "Work Inbox" :query "tag:work and tag:inbox and tag:unread" :key "W")
-     '(:name "Personal Inbox" :query "tag:personal and tag:inbox" :key "P")
-     '(:name "Guix Home Inbox" :key "H" :query "tag:guix-home and tag:unread")
-     '(:name "RDE Inbox"       :key "R"
-       :query "(to:/rde/ or cc:/rde/) and tag:unread")
-     '(:name "New TODO" :query "tag:todo or (tag:inbox and not tag:unread)" :key "T")
-      '(:name "Watching" :query "thread:{tag:watch} and tag:unread" :key "tw")
-      %rde-notmuch-saved-searches)
-    )
+    ;;  #:extra-tag-updates-post
+ ;;     '("notmuch tag +guix-home -- 'thread:\"\
+ ;; {((subject:guix and subject:home) or (subject:service and subject:home) or \
+ ;; subject:/home:/) and tag:new}\"'")
+ ;;     #:notmuch-saved-searches
+ ;;     (cons*
+ ;;      ;; TODO: Add tag:unread to all inboxes.  Revisit archive workflow.
+ ;;      '(:name "Work Inbox" :query "tag:work and tag:inbox and tag:unread" :key "W")
+ ;;     '(:name "Personal Inbox" :query "tag:personal and tag:inbox" :key "P")
+ ;;     '(:name "Guix Home Inbox" :key "H" :query "tag:guix-home and tag:unread")
+ ;;     '(:name "RDE Inbox"       :key "R"
+ ;;       :query "(to:/rde/ or cc:/rde/) and tag:unread")
+ ;;     '(:name "New TODO" :query "tag:todo or (tag:inbox and not tag:unread)" :key "T")
+ ;;      '(:name "Watching" :query "thread:{tag:watch} and tag:unread" :key "tw")
+ ;;      %rde-notmuch-saved-searches)
+ ;;  )
 
    (feature-keyboard
     ;; To get all available options, layouts and variants run:

@@ -160,11 +160,11 @@
     (font
      (name "Iosevka")
      (package (@ (gnu packages fonts) font-iosevka))
-     (size 11)
+     (size 13)
      (weight 'regular))
     ;; #:font-monospace (font "Fira Mono" #:size 14 #:weight 'semi-light)
     ;; #:font-packages (list font-fira-mono)
-    #:default-font-size 11)
+    #:default-font-size 13)
 
    ;; https://sr.ht/~tsdh/swayr/
    ;; https://github.com/ErikReider/SwayNotificationCenter
@@ -231,7 +231,10 @@
 			      ("~/org/inbox.org" :maxlevel . 9)))
                       (setq org-refile-allow-creating-parent-nodes 'confirm)
                       ;;https://blog.aaronbieber.com/2017/03/19/organizing-notes-with-refile.html
-                       (global-visual-line-mode t)
+                      (global-auto-revert-mode t) ;;salva tudo sem criar aqueles arquivos adicionais com #
+                      (add-hook 'auto-save-hook 'org-save-all-org-buffers) ;; see: https://christiantietze.de/posts/2019/03/sync-emacs-org-files/
+
+                      (global-visual-line-mode t)
                        (global-hl-line-mode t)
                        (load-theme 'modus-vivendi-tinted)
                        (defun meow-setup ()
@@ -559,8 +562,6 @@
 
 
    ;; TODO: Remove auctex dependency, which interjects in texinfo-mode.
-
-
 
 
    (feature-emacs-citar
