@@ -165,7 +165,9 @@
      (@ (gnu packages tree-sitter) tree-sitter-clojure)
      (@ (gnu packages tree-sitter) tree-sitter-html))
     (strings->packages
-    "figlet" ;; TODO: Move to emacs-artist-mode
+     "figlet" ;; TODO: Move to emacs-artist-mode
+     "gnome-disk-utility"
+     "docker-compose"
      "pandoc"
      "calibre"
      "mcomix"
@@ -241,6 +243,7 @@
      "winetricks"
      "libreoffice"
      "ffmpeg"
+     "haunt"
      "ripgrep" "curl"))))
 
 ;; (define (wallpaper url hash)
